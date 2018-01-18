@@ -48,3 +48,59 @@
                     (cadr (car lst)))
            (list (car lst)))
        (uncompress (cdr lst)))))
+
+(defun our-nthcdr (n lst)
+  (if (zerop n)
+      lst
+      (our-nthcdr (- n 1) (cdr lst))))
+
+(defun our-copy-tree (tr)
+  (if (atom tr)
+      tr
+      (cons (our-copy-tree (car tr))
+            (our-copy-tree (cdr tr)))))
+
+(defun our-subst (new old tree)
+  (if (eql old tree)
+      new
+      (if (atom tree)
+          tree
+          (cons (our-subst new old (car tree))
+                (our-subst new old (cdr tree))))))
+
+(defun our-member-if (fn lst)
+  (and (consp lst)
+       (if (funcall fn (car lst))
+           lst
+           (our-member-if fn (cdr lst)))))
+
+(defun mirror? (s)
+  (let ((len (length s)))
+    (and (evenp len)
+         (let ((mid (/ len 2)))
+           (equal (subseq s 0 mid)
+                  (reverse (subseq s mid len)))))))
+
+(defun nthmost (n lst)
+  (nth (- n 1) (sort lst #'>)))
+
+(defun our-reverse (lst)
+  (let ((acc nil))
+    (dolist (obj lst)
+      (push obj acc))
+    acc))
+
+(defun proper-list? (lst)
+  (or (null lst)
+      (and (consp lst)
+           (proper-list? (cdr lst)))))
+
+(defun our-assoc (key alist)
+  (and (consp alist)
+       (not (null alist))
+       (let ((pair (car alist)))
+         (if (and (consp pair)
+                  (eql (car pair) key))
+             pair
+             (our-assoc key (cdr alist))))))
+
