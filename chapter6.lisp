@@ -4,3 +4,7 @@
 
 (defun (setf primo) (val lst)
   (setf (car lst) val))
+
+(defun our-funcall (fn &rest arguments)
+  (apply fn arguments))
+
