@@ -39,3 +39,17 @@
                 (progn (setf wins x)
                        (setf max score)))))
         (values wins max))))
+
+(defun combiner (x)
+  (typecase x
+    (number #'+)
+    (list #'append)
+    (t #'list)))
+
+(defun combine (&rest args)
+  (apply (combiner (car args)) args))
+
+(defun our-complement (fn)
+  (lambda (&rest args)
+    (not (apply fn args))))
+
